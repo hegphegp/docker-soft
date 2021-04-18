@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config mode="client">
+    <servers>
+        <server ip="127.0.0.1" port="2280" http-port="8080"/>
+        <!-- 如果有多个server，按下面方式配置 -->
+        <!--
+        	<server ip="192.168.1.110" port="2280" http-port="8080"/>
+        	<server ip="192.168.1.111" port="2280" http-port="8080"/>
+        -->
+    </servers>
+</config>

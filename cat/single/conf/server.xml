@@ -1,0 +1,8 @@
+<config local-mode="false" hdfs-machine="false" job-machine="true" alert-machine="true">
+    <storage local-base-dir="/data/appdatas/cat/bucket/" max-hdfs-storage-time="15" local-report-storage-time="7" local-logivew-storage-time="7">
+    </storage>
+    <console default-domain="Cat" show-cat-domain="true">
+        <!--将172.16.90.114修改为部署CAT的内网IP，请不要写127.0.0.1和外网IP -->
+        <remote-servers>192.168.1.110:8081</remote-servers>
+    </console>
+</config>

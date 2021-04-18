@@ -1,0 +1,42 @@
+version: "3.3"
+
+services:
+  cat:
+    restart: always
+    container_name: cat
+    image: registry.cn-hangzhou.aliyuncs.com/hegp/cat:8.5.0
+    command: /bin/sh -c '/setVariable.sh && catalina.sh run'
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USERNAME=cat
+      - MYSQL_PASSWD=cat
+      - MYSQL_SCHEMA=cat
+      - JAVA_OPTS=-Xms1024m -Xmx4096m -XX:PermSize=256m -XX:MaxPermSize=512m -Dhost.ip=192.168.1.110 -Duser.timezone=GMT+8
+    depends_on:
+      - mysql
+    volumes:
+      - ./conf/client.xml:/data/appdatas/cat/client.xml
+#      - ./conf/server.xml:/data/appdatas/cat/server.xml
+    ports:
+      - "8081:8080"
+# 然后访问 localhost:8081/cat/
+      - "2280:2280"
+
+  mysql:
+    restart: always
+    container_name: mysql
+    image: mysql:5.7.22
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --init-connect='SET NAMES utf8mb4;' --default-time-zone='+8:00' --innodb-flush-log-at-trx-commit=0 --log-timestamps=SYSTEM --sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=cat
+      - MYSQL_USER=cat
+      - MYSQL_PASSWORD=cat
+    volumes:
+      - ./sql/:/docker-entrypoint-initdb.d/
+#      - ./mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+

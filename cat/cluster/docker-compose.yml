@@ -1,9 +1,8 @@
-version: "3.3"
+version: "2"
 services:
-  nacos:
-    restart: always
+  nacos1:
     image: nacos/nacos-server:2.0.0
-    container_name: nacos
+    container_name: nacos1
     environment:
       - PREFER_HOST_MODE=hostname
       - MODE=standalone
@@ -13,18 +12,16 @@ services:
       - MYSQL_SERVICE_PORT=3306
       - MYSQL_SERVICE_USER=nacos
       - MYSQL_SERVICE_PASSWORD=nacos
-      - nacos.core.auth.enabled=true # 设置http请求必须登录认证
-#     curl http://localhost:8848/nacos/v1/cs/configs           需要登录认证，不可以直接访问
-#     curl http://localhost:8848/nacos/v1/core/cluster/nodes   不需要登录认证，可以直接访问
+      - nacos.core.auth.enabled=true # 设置要登录认证的唯一参数，其他参数都不是要登录认证的参数
 #    volumes:
 #      - ./init.d/custom.properties:/home/nacos/init.d/custom.properties
 #      - ./standalone-logs/:/home/nacos/logs
     ports:
       - "8848:8848"
       - "9555:9555"
+    restart: always
 
   mysql:
-    restart: always
     container_name: mysql
     image: mysql:8.0.16
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --init-connect='SET NAMES utf8mb4;' --default-time-zone='+8:00' --log-timestamps=SYSTEM --sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' --default_authentication_plugin=mysql_native_password --performance_schema_max_table_instances=200 --table_definition_cache=100 --table_open_cache=100 --performance_schema=off --innodb_buffer_pool_size=8M --key_buffer_size=8M --tmp_table_size=8M --max_connections=50
